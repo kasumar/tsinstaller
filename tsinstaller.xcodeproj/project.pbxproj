@@ -12,7 +12,11 @@
 		0F2479331C26D5EB0078A727 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2479321C26D5EB0078A727 /* ViewController.m */; };
 		0F2479361C26D5EB0078A727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F2479341C26D5EB0078A727 /* Main.storyboard */; };
 		0F2479381C26D5EB0078A727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F2479371C26D5EB0078A727 /* Assets.xcassets */; };
-		0F24793B1C26D5EB0078A727 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F2479391C26D5EB0078A727 /* LaunchScreen.storyboard */; };
+		0F4E1AFD1C27B6240003A3BF /* install.html in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1AFC1C27B6240003A3BF /* install.html */; };
+		0F4E1AFF1C27B62C0003A3BF /* main.css in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1AFE1C27B62C0003A3BF /* main.css */; };
+		0F4E1B011C27B6320003A3BF /* banner1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1B001C27B6320003A3BF /* banner1024.png */; };
+		0F4E1B1B1C27C8870003A3BF /* Packages in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1B1A1C27C8870003A3BF /* Packages */; };
+		0FA9015A1C29424100CD0A8D /* bin in Resources */ = {isa = PBXBuildFile; fileRef = 0FA901591C29424100CD0A8D /* bin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +28,12 @@
 		0F2479321C26D5EB0078A727 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0F2479351C26D5EB0078A727 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F2479371C26D5EB0078A727 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0F24793A1C26D5EB0078A727 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F24793C1C26D5EB0078A727 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0F4E1AFC1C27B6240003A3BF /* install.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = install.html; sourceTree = "<group>"; };
+		0F4E1AFE1C27B62C0003A3BF /* main.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = main.css; sourceTree = "<group>"; };
+		0F4E1B001C27B6320003A3BF /* banner1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner1024.png; sourceTree = "<group>"; };
+		0F4E1B1A1C27C8870003A3BF /* Packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Packages; sourceTree = "<group>"; };
+		0FA901591C29424100CD0A8D /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +72,6 @@
 				0F2479321C26D5EB0078A727 /* ViewController.m */,
 				0F2479341C26D5EB0078A727 /* Main.storyboard */,
 				0F2479371C26D5EB0078A727 /* Assets.xcassets */,
-				0F2479391C26D5EB0078A727 /* LaunchScreen.storyboard */,
 				0F24793C1C26D5EB0078A727 /* Info.plist */,
 				0F24792B1C26D5EB0078A727 /* Supporting Files */,
 			);
@@ -74,6 +81,11 @@
 		0F24792B1C26D5EB0078A727 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0FA901591C29424100CD0A8D /* bin */,
+				0F4E1B1A1C27C8870003A3BF /* Packages */,
+				0F4E1AFC1C27B6240003A3BF /* install.html */,
+				0F4E1AFE1C27B62C0003A3BF /* main.css */,
+				0F4E1B001C27B6320003A3BF /* banner1024.png */,
 				0F24792C1C26D5EB0078A727 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -110,6 +122,7 @@
 				TargetAttributes = {
 					0F2479271C26D5EB0078A727 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = GXZ23M5TP2;
 					};
 				};
 			};
@@ -136,8 +149,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F24793B1C26D5EB0078A727 /* LaunchScreen.storyboard in Resources */,
+				0F4E1AFF1C27B62C0003A3BF /* main.css in Resources */,
 				0F2479381C26D5EB0078A727 /* Assets.xcassets in Resources */,
+				0F4E1B1B1C27C8870003A3BF /* Packages in Resources */,
+				0F4E1AFD1C27B6240003A3BF /* install.html in Resources */,
+				0FA9015A1C29424100CD0A8D /* bin in Resources */,
+				0F4E1B011C27B6320003A3BF /* banner1024.png in Resources */,
 				0F2479361C26D5EB0078A727 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,14 +181,6 @@
 				0F2479351C26D5EB0078A727 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		0F2479391C26D5EB0078A727 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0F24793A1C26D5EB0078A727 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -261,10 +270,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = tsinstaller/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/tsinstaller",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwindev.tsinstaller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -272,10 +289,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = tsinstaller/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/tsinstaller",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.darwindev.tsinstaller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -298,6 +323,7 @@
 				0F2479411C26D5EB0078A727 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
