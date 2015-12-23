@@ -19,6 +19,8 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
+#define sshpassExecPath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/sshpass"]
+
 @interface ViewController ()
 @property (strong, nonatomic) NSMutableData *fileData;
 @property (strong, nonatomic) NSFileHandle *writeHandle;
@@ -58,7 +60,6 @@
 
 @implementation ViewController
 
-const char* sshpass = "/tmp/sshpass";
 const char* password = "alpine";
 const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/var/mobile", "USER=mobile", "LOGNAME=mobile", NULL};
 
@@ -366,18 +367,18 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
     if (!fileManager) {
         return NO;
     }
-    if (![fileManager fileExistsAtPath:@"/tmp/sshpass"]) {
-        [fileManager copyItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"bin/sshpass"] toPath:@"/tmp/sshpass" error:&error];
+    if (![fileManager fileExistsAtPath:sshpassExecPath]) {
+        [fileManager copyItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"bin/sshpass"] toPath:sshpassExecPath error:&error];
         if (!error) {
             return NO;
         }
     }
-    if (chmod("/tmp/sshpass", 0755)) {
+    if (chmod([sshpassExecPath UTF8String], 0755)) {
         return NO;
     }
     pid_t pid; int status = 0;
     const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", "echo", NULL};
-    posix_spawn(&pid, sshpass, NULL, NULL, (char* const*)args, (char* const*)envp);
+    posix_spawn(&pid, [sshpassExecPath UTF8String], NULL, NULL, (char* const*)args, (char* const*)envp);
     waitpid(pid, &status, 0);
     if (status == 0) {
         return YES;
@@ -418,7 +419,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         pid_t pid;
         NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"packages/dependencies/*.deb"];
         const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", [[NSString stringWithFormat:@"dpkg -i %@", path] UTF8String], NULL};
-        posix_spawn(&pid, sshpass, NULL, NULL, (char* const*)args, (char* const*)envp);
+        posix_spawn(&pid, [sshpassExecPath UTF8String], NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);
         dispatch_async(dispatch_get_main_queue(), ^{
             running = NO;
@@ -552,7 +553,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         NSString *command = [NSString stringWithFormat:@"dpkg -i %@", cachePath];
         pid_t pid;
         const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", [command UTF8String], NULL};
-        posix_spawn(&pid, sshpass, NULL, NULL, (char* const*)args, (char* const*)envp);
+        posix_spawn(&pid, [sshpassExecPath UTF8String], NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);
         dispatch_async(dispatch_get_main_queue(), ^{
             running = NO;
@@ -583,7 +584,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
             NSString *command = [NSString stringWithFormat:@"dpkg -i %@", cachePath];
             pid_t pid;
             const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", [command UTF8String], NULL};
-            posix_spawn(&pid, sshpass, NULL, NULL, (char* const*)args, (char* const*)envp);
+            posix_spawn(&pid, [sshpassExecPath UTF8String], NULL, NULL, (char* const*)args, (char* const*)envp);
             waitpid(pid, &status, 0);
             dispatch_async(dispatch_get_main_queue(), ^{
                 running = NO;
