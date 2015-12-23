@@ -106,18 +106,6 @@
                                 <color key="textColor" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6aZ-Kf-b9d">
-                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
-                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EAk-O1-fTM">
-                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
-                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nrf-eb-DFc">
-                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qSQ-kG-L8z">
                                 <rect key="frame" x="-10" y="-10" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -127,6 +115,18 @@
                                 <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                             <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KKt-6F-Du0">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6aZ-Kf-b9d">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EAk-O1-fTM">
+                                <rect key="frame" x="-10" y="-10" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nrf-eb-DFc">
                                 <rect key="frame" x="-10" y="-10" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.54117647059999996" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
@@ -212,12 +212,12 @@
                                 <exclude reference="nGC-oX-OrZ"/>
                                 <exclude reference="ZKc-iv-Oye"/>
                                 <exclude reference="UtL-rD-5wL"/>
-                                <exclude reference="6aZ-Kf-b9d"/>
-                                <exclude reference="EAk-O1-fTM"/>
-                                <exclude reference="nrf-eb-DFc"/>
                                 <exclude reference="qSQ-kG-L8z"/>
                                 <exclude reference="AP3-es-482"/>
                                 <exclude reference="KKt-6F-Du0"/>
+                                <exclude reference="6aZ-Kf-b9d"/>
+                                <exclude reference="EAk-O1-fTM"/>
+                                <exclude reference="nrf-eb-DFc"/>
                                 <exclude reference="2kH-sA-rvt"/>
                                 <exclude reference="015-fh-F3t"/>
                             </mask>
@@ -281,12 +281,12 @@
                                 <include reference="nGC-oX-OrZ"/>
                                 <include reference="ZKc-iv-Oye"/>
                                 <include reference="UtL-rD-5wL"/>
-                                <include reference="6aZ-Kf-b9d"/>
-                                <include reference="EAk-O1-fTM"/>
-                                <include reference="nrf-eb-DFc"/>
                                 <include reference="qSQ-kG-L8z"/>
                                 <include reference="AP3-es-482"/>
                                 <include reference="KKt-6F-Du0"/>
+                                <include reference="6aZ-Kf-b9d"/>
+                                <include reference="EAk-O1-fTM"/>
+                                <include reference="nrf-eb-DFc"/>
                                 <include reference="2kH-sA-rvt"/>
                                 <include reference="015-fh-F3t"/>
                             </mask>

@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		0F24792D1C26D5EB0078A727 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F24792C1C26D5EB0078A727 /* main.m */; };
 		0F2479301C26D5EB0078A727 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F24792F1C26D5EB0078A727 /* AppDelegate.m */; };
-		0F2479331C26D5EB0078A727 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2479321C26D5EB0078A727 /* ViewController.m */; };
+		0F2479331C26D5EB0078A727 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0F2479321C26D5EB0078A727 /* ViewController.mm */; };
 		0F2479361C26D5EB0078A727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F2479341C26D5EB0078A727 /* Main.storyboard */; };
 		0F2479381C26D5EB0078A727 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F2479371C26D5EB0078A727 /* Assets.xcassets */; };
 		0F4E1AFD1C27B6240003A3BF /* install.html in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1AFC1C27B6240003A3BF /* install.html */; };
 		0F4E1AFF1C27B62C0003A3BF /* main.css in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1AFE1C27B62C0003A3BF /* main.css */; };
 		0F4E1B011C27B6320003A3BF /* banner1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1B001C27B6320003A3BF /* banner1024.png */; };
-		0F4E1B1B1C27C8870003A3BF /* Packages in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1B1A1C27C8870003A3BF /* Packages */; };
+		0F4E1B1B1C27C8870003A3BF /* packages in Resources */ = {isa = PBXBuildFile; fileRef = 0F4E1B1A1C27C8870003A3BF /* packages */; };
 		0FA9015A1C29424100CD0A8D /* bin in Resources */ = {isa = PBXBuildFile; fileRef = 0FA901591C29424100CD0A8D /* bin */; };
 /* End PBXBuildFile section */
 
@@ -25,14 +25,14 @@
 		0F24792E1C26D5EB0078A727 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0F24792F1C26D5EB0078A727 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0F2479311C26D5EB0078A727 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0F2479321C26D5EB0078A727 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0F2479321C26D5EB0078A727 /* ViewController.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		0F2479351C26D5EB0078A727 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0F2479371C26D5EB0078A727 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F24793C1C26D5EB0078A727 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F4E1AFC1C27B6240003A3BF /* install.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = install.html; sourceTree = "<group>"; };
 		0F4E1AFE1C27B62C0003A3BF /* main.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = main.css; sourceTree = "<group>"; };
 		0F4E1B001C27B6320003A3BF /* banner1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner1024.png; sourceTree = "<group>"; };
-		0F4E1B1A1C27C8870003A3BF /* Packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Packages; sourceTree = "<group>"; };
+		0F4E1B1A1C27C8870003A3BF /* packages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = packages; sourceTree = "<group>"; };
 		0FA901591C29424100CD0A8D /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bin; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,7 +69,7 @@
 				0F24792E1C26D5EB0078A727 /* AppDelegate.h */,
 				0F24792F1C26D5EB0078A727 /* AppDelegate.m */,
 				0F2479311C26D5EB0078A727 /* ViewController.h */,
-				0F2479321C26D5EB0078A727 /* ViewController.m */,
+				0F2479321C26D5EB0078A727 /* ViewController.mm */,
 				0F2479341C26D5EB0078A727 /* Main.storyboard */,
 				0F2479371C26D5EB0078A727 /* Assets.xcassets */,
 				0F24793C1C26D5EB0078A727 /* Info.plist */,
@@ -82,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				0FA901591C29424100CD0A8D /* bin */,
-				0F4E1B1A1C27C8870003A3BF /* Packages */,
+				0F4E1B1A1C27C8870003A3BF /* packages */,
 				0F4E1AFC1C27B6240003A3BF /* install.html */,
 				0F4E1AFE1C27B62C0003A3BF /* main.css */,
 				0F4E1B001C27B6320003A3BF /* banner1024.png */,
@@ -151,7 +151,7 @@
 			files = (
 				0F4E1AFF1C27B62C0003A3BF /* main.css in Resources */,
 				0F2479381C26D5EB0078A727 /* Assets.xcassets in Resources */,
-				0F4E1B1B1C27C8870003A3BF /* Packages in Resources */,
+				0F4E1B1B1C27C8870003A3BF /* packages in Resources */,
 				0F4E1AFD1C27B6240003A3BF /* install.html in Resources */,
 				0FA9015A1C29424100CD0A8D /* bin in Resources */,
 				0F4E1B011C27B6320003A3BF /* banner1024.png in Resources */,
@@ -166,7 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F2479331C26D5EB0078A727 /* ViewController.m in Sources */,
+				0F2479331C26D5EB0078A727 /* ViewController.mm in Sources */,
 				0F2479301C26D5EB0078A727 /* AppDelegate.m in Sources */,
 				0F24792D1C26D5EB0078A727 /* main.m in Sources */,
 			);
