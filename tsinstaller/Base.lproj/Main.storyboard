@@ -151,13 +151,40 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDn-s8-0KC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="V2c-kK-Wzb"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="检查更新" backgroundImage="Button">
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V2c-kK-Wzb"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="V2c-kK-Wzb"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="checkUpdateButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8lQ-I4-5wN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="EAk-O1-fTM" firstAttribute="top" secondItem="6aZ-Kf-b9d" secondAttribute="bottom" constant="9" id="01H-X5-4A7"/>
+                            <constraint firstItem="sDn-s8-0KC" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="0Ly-98-38i"/>
+                            <constraint firstItem="sDn-s8-0KC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="5nr-T1-5cm"/>
                             <constraint firstItem="015-fh-F3t" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8Qh-Hl-nYr"/>
                             <constraint firstItem="015-fh-F3t" firstAttribute="top" secondItem="Nvl-mb-Ft0" secondAttribute="bottom" constant="8" id="8Se-nN-hok"/>
                             <constraint firstItem="vHx-FE-d2z" firstAttribute="leading" secondItem="AP3-es-482" secondAttribute="trailing" constant="8" id="9he-zN-axS"/>
+                            <constraint firstItem="Nvl-mb-Ft0" firstAttribute="top" secondItem="sDn-s8-0KC" secondAttribute="bottom" constant="8" id="AUR-05-bMA"/>
                             <constraint firstItem="aBY-9L-m3d" firstAttribute="width" secondItem="WvY-ux-ri5" secondAttribute="width" multiplier="0.725" id="AWY-OE-dcj"/>
                             <constraint firstItem="pav-mf-VmL" firstAttribute="bottom" secondItem="qSQ-kG-L8z" secondAttribute="bottom" id="DSX-CG-LoJ"/>
                             <constraint firstItem="WvY-ux-ri5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G0r-M1-aGs"/>
@@ -197,6 +224,7 @@
                             <constraint firstItem="KKt-6F-Du0" firstAttribute="leading" secondItem="qSQ-kG-L8z" secondAttribute="leading" id="wBX-cn-sQQ"/>
                             <constraint firstItem="qSQ-kG-L8z" firstAttribute="top" secondItem="WvY-ux-ri5" secondAttribute="bottom" constant="41" id="y8T-1Y-hVq"/>
                             <constraint firstItem="6aZ-Kf-b9d" firstAttribute="leading" secondItem="qSQ-kG-L8z" secondAttribute="leading" id="yQx-Aq-4uj"/>
+                            <constraint firstItem="sDn-s8-0KC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zRN-eV-5b7"/>
                             <constraint firstItem="ZKc-iv-Oye" firstAttribute="bottom" secondItem="EAk-O1-fTM" secondAttribute="bottom" id="zdq-Rw-WEK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nvl-mb-Ft0" secondAttribute="trailing" id="zx7-TZ-CAz"/>
                         </constraints>
@@ -220,6 +248,7 @@
                                 <exclude reference="nrf-eb-DFc"/>
                                 <exclude reference="2kH-sA-rvt"/>
                                 <exclude reference="015-fh-F3t"/>
+                                <exclude reference="sDn-s8-0KC"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="Wlp-sy-OtQ"/>
@@ -235,8 +264,12 @@
                                 <exclude reference="Sb5-w4-b31"/>
                                 <exclude reference="sxk-WO-AG2"/>
                                 <exclude reference="y8T-1Y-hVq"/>
+                                <exclude reference="AUR-05-bMA"/>
                                 <exclude reference="uaD-f8-Cje"/>
                                 <exclude reference="zx7-TZ-CAz"/>
+                                <exclude reference="0Ly-98-38i"/>
+                                <exclude reference="5nr-T1-5cm"/>
+                                <exclude reference="zRN-eV-5b7"/>
                                 <exclude reference="8Qh-Hl-nYr"/>
                                 <exclude reference="8Se-nN-hok"/>
                                 <exclude reference="JYo-zE-RZJ"/>
@@ -338,7 +371,14 @@
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="sDn-s8-0KC"/>
+                            </mask>
                             <mask key="constraints">
+                                <include reference="AUR-05-bMA"/>
+                                <include reference="0Ly-98-38i"/>
+                                <include reference="5nr-T1-5cm"/>
+                                <include reference="zRN-eV-5b7"/>
                                 <include reference="8Se-nN-hok"/>
                             </mask>
                         </variation>
@@ -350,6 +390,7 @@
                         <outlet property="activityLabel_4" destination="nGC-oX-OrZ" id="6lw-Ph-8XO"/>
                         <outlet property="activityLabel_5" destination="ZKc-iv-Oye" id="Xyt-O3-2FP"/>
                         <outlet property="activityLabel_6" destination="UtL-rD-5wL" id="mN5-ja-Y1A"/>
+                        <outlet property="checkUpdateButton" destination="sDn-s8-0KC" id="pk0-Ni-D0z"/>
                         <outlet property="grayActivityIndicator_1" destination="qSQ-kG-L8z" id="0Ld-6j-UnC"/>
                         <outlet property="grayActivityIndicator_2" destination="AP3-es-482" id="6VZ-nU-4ms"/>
                         <outlet property="grayActivityIndicator_3" destination="KKt-6F-Du0" id="gYl-Fb-xzL"/>

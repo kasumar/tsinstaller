@@ -39,23 +39,33 @@
 @property (weak, nonatomic) IBOutlet UIButton *installButton;
 @property (weak, nonatomic) IBOutlet UITextView *introLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *checkUpdateButton;
 @property (strong, nonatomic) UIAlertView *reportAlertView;
 @property (strong, nonatomic) NSString *verifyStr;
 @property (strong, nonatomic) NSString *downloadUrl;
+@property (strong, nonatomic) NSString *installedVersion;
+@property (strong, nonatomic) NSString *remoteVersion;
+@property BOOL hasRootPrivilege;
 @property BOOL appInstalled;
 @property BOOL iconNotDisplayed;
 @property BOOL shouldUseCydia;
 @property BOOL downloading;
 @property BOOL downloadResult;
 @property BOOL installSucceed;
+@property BOOL shouldUpdate;
 
 @end
 
 @implementation ViewController
 
 const char* sshpass = "/tmp/sshpass";
-const char* password = "r0pavoga";
+const char* password = "alpine";
 const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "HOME=/var/mobile", "USER=mobile", "LOGNAME=mobile", NULL};
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -67,28 +77,44 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         _downloading = NO;
         _installSucceed = NO;
         _iconNotDisplayed = NO;
+        _installedVersion = nil;
+        _shouldUpdate = NO;
+        _hasRootPrivilege = NO;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    BOOL result = [self checkPrivileges];
+    _hasRootPrivilege = [self checkPrivileges];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:@"/Applications/TouchSprite.app/NewTouchSprite"]) {
+    if ([fileManager fileExistsAtPath:@"/Applications/TouchSprite.app/Info.plist"]) {
         _appInstalled = YES;
-        _installButton.enabled = YES;
         if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"touchsprite://"]]) {
             _iconNotDisplayed = NO;
+            _installButton.enabled = YES;
+            _checkUpdateButton.hidden = NO;
             [_installButton setTitle:@"立即启动" forState:UIControlStateNormal];
-            _tipsLabel.text = @"已检测到该设备上安装的触动精灵，轻按以启动。";
+            if ([self checkVersion]) {
+                if (_installedVersion != nil) {
+                    [_tipsLabel setText:[NSString stringWithFormat:@"已安装触动精灵 v%@，轻按以启动。", _installedVersion]];
+                }
+            }
         } else {
             _iconNotDisplayed = YES;
-            [_installButton setTitle:@"修复图标" forState:UIControlStateNormal];
-            _tipsLabel.text = @"轻按以尝试修复丢失的触动精灵应用图标。";
+            if (_hasRootPrivilege) {
+                _installButton.enabled = YES;
+                [_installButton setTitle:@"修复图标" forState:UIControlStateNormal];
+                [_tipsLabel setText:@"检测到问题，轻按以尝试修复丢失的触动精灵图标。"];
+            } else {
+                _installButton.enabled = NO;
+                [_installButton setTitle:@"无法修复图标" forState:UIControlStateDisabled];
+                [_tipsLabel setText:@"检测到问题，但无法完成一键修复，请联系客服反馈问题。"];
+                [self reportProblems];
+            }
         }
     } else {
-        if (!result) {
+        if (!_hasRootPrivilege) {
             _shouldUseCydia = YES;
             [_installButton setTitle:@"跳转到 Cydia 安装" forState:UIControlStateNormal];
         } else {
@@ -97,11 +123,6 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         _installButton.enabled = YES;
         _tipsLabel.text = [@"触动精灵安装器 v" stringByAppendingString:currentVersion];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)reportProblems {
@@ -123,6 +144,39 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
     }
 }
 
+- (IBAction)checkUpdateButtonTapped:(id)sender {
+    _checkUpdateButton.enabled = NO;
+    [_checkUpdateButton setTitle:@"检查更新中……" forState:UIControlStateNormal];
+    if (![self checkVersion] || !_installedVersion) {
+        _checkUpdateButton.enabled = YES;
+        [_checkUpdateButton setTitle:@"重试" forState:UIControlStateNormal];
+        [_tipsLabel setText:@"获取本地版本信息失败，轻按以重试。"];
+        return;
+    }
+    if (![self checkNetwork] || !_remoteVersion) {
+        _checkUpdateButton.enabled = YES;
+        [_checkUpdateButton setTitle:@"重试" forState:UIControlStateNormal];
+        [_tipsLabel setText:@"连接服务器失败，轻按以重试。"];
+        return;
+    }
+    if ([_installedVersion isEqualToString:_remoteVersion]) {
+        [_checkUpdateButton setTitle:@"已安装最新版本" forState:UIControlStateNormal];
+        [_tipsLabel setText:[NSString stringWithFormat:@"您已经安装了最新版本触动精灵 v%@，无需更新。", _installedVersion]];
+        return;
+    }
+    if (!_hasRootPrivilege) {
+        _shouldUseCydia = YES;
+        [_installButton setTitle:@"跳转到 Cydia 升级" forState:UIControlStateNormal];
+    } else {
+        _shouldUseCydia = NO;
+        [_checkUpdateButton setTitle:@"发现新版本" forState:UIControlStateNormal];
+        [_installButton setTitle:@"一键升级" forState:UIControlStateNormal];
+        [_tipsLabel setText:[NSString stringWithFormat:@"发现新版本 v%@，轻按以一键升级。", _installedVersion]];
+    }
+    _shouldUpdate = YES;
+    _installButton.enabled = YES;
+}
+
 - (IBAction)installButtonTapped:(id)sender {
     if (_installSucceed) {
         _installButton.enabled = NO;
@@ -132,17 +186,17 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);
         return;
-    } else if (_appInstalled) {
+    } else if (_appInstalled && !_shouldUpdate) {
         if (_iconNotDisplayed) {
             _installButton.enabled = NO;
             if ([self doCleaning]) {
                 _installSucceed = YES;
                 _installButton.enabled = YES;
                 [_installButton setTitle:@"立即重启" forState:UIControlStateNormal];
-                _tipsLabel.text = @"图标修复成功，轻按以重启设备。";
+                [_tipsLabel setText:@"图标修复成功，轻按以重启设备。"];
             } else {
                 [_installButton setTitle:@"修复失败" forState:UIControlStateDisabled];
-                _tipsLabel.text = @"图标修复失败，请联系客服反馈问题";
+                [_tipsLabel setText:@"图标修复失败，请联系客服反馈问题"];
                 [self reportProblems];
             }
         } else {
@@ -171,15 +225,15 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         }
         [self stepAnimate:3];
         if (![self checkNetwork]) {
-            _activityLabel_3.text = @"无法连接到服务器";
+            [_activityLabel_3 setText:@"无法连接到服务器"];
             _activityLabel_3.textColor = [UIColor grayColor];
         }
         [self stepAnimate:4];
         if (![self downloadResources]) {
             if (!_downloadUrl) {
-                _activityLabel_4.text = @"无需获取更新资源";
+                [_activityLabel_4 setText:@"无需获取更新资源"];
             } else {
-                _activityLabel_4.text = @"更新资源获取失败";
+                [_activityLabel_4 setText:@"更新资源获取失败"];
             }
             _activityLabel_4.textColor = [UIColor grayColor];
         }
@@ -190,7 +244,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         }
         [self stepAnimate:6];
         if (![self doCleaning]) {
-            _activityLabel_6.text = @"清理执行失败";
+            [_activityLabel_6 setText:@"清理执行失败"];
             _activityLabel_6.textColor = [UIColor grayColor];
         }
         [self stepAnimate:7];
@@ -245,7 +299,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
             _installButton.enabled = YES;
             _installSucceed = YES;
             [_installButton setTitle:@"立即重启" forState:UIControlStateNormal];
-            _tipsLabel.text = @"安装完成，需要重启设备，轻按以重启设备。";
+            [_tipsLabel setText:@"安装完成，需要重启设备，轻按以重启设备。"];
         }];
     } else if (step == 8) {
         [UIView animateWithDuration:1.0 animations:^{
@@ -253,7 +307,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         } completion:^(BOOL finished) {
             _installButton.enabled = YES;
             [_installButton setTitle:@"打开 Cydia" forState:UIControlStateNormal];
-            _tipsLabel.text = @"请在 Cydia 中继续安装。";
+            [_tipsLabel setText:@"请在 Cydia 中继续安装。"];
         }];
     }
 }
@@ -284,13 +338,26 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
             _shouldUseCydia = YES;
             _installButton.enabled = YES;
             [_installButton setTitle:@"打开 Cydia" forState:UIControlStateNormal];
-            _tipsLabel.text = @"一键安装失败，请尝试在 Cydia 中继续安装。";
+            [_tipsLabel setText:@"一键安装失败，请尝试在 Cydia 中继续安装。"];
         } else {
             [_installButton setTitle:@"安装失败" forState:UIControlStateDisabled];
-            _tipsLabel.text = @"安装失败，请检查安装环境。";
+            [_tipsLabel setText:@"安装失败，请检查安装环境。"];
             [self reportProblems];
         }
     }];
+}
+
+- (BOOL)checkVersion {
+    NSMutableDictionary *infoPlist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/Applications/TouchSprite.app/Info.plist"];
+    if (!infoPlist) {
+        return NO;
+    }
+    id version = [infoPlist objectForKey:@"CFBundleVersion"];
+    if (!version || ![version isKindOfClass:[NSString class]]) {
+        return NO;
+    }
+    _installedVersion = version;
+    return YES;
 }
 
 - (BOOL)checkPrivileges {
@@ -320,20 +387,26 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 
 - (BOOL)checkEnvironment {
     if (SYSTEM_VERSION_LESS_THAN(@"7.0") || SYSTEM_VERSION_GREATER_THAN(@"9.0.2")) {
-        _activityLabel_1.text = [NSString stringWithFormat:@"不支持的 iOS 版本：%@", [[UIDevice currentDevice] systemVersion]];
+        [_activityLabel_1 setText:[NSString stringWithFormat:@"不支持的 iOS 版本：%@", [[UIDevice currentDevice] systemVersion]]];
         return NO;
+    } else {
+        [_activityLabel_1 setText:[NSString stringWithFormat:@"支持的 iOS 版本：%@", [[UIDevice currentDevice] systemVersion]]];
     }
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]) {
-        _activityLabel_1.text = @"请先越狱并安装 Cydia";
+        [_activityLabel_1 setText:@"请先越狱并安装 Cydia"];
         return NO;
+    } else {
+        [_activityLabel_1 setText:@"已越狱并安装 Cydia"];
     }
     return YES;
 }
 
 - (BOOL)checkDependencies {
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]) {
-        _activityLabel_2.text = @"未安装 Cydia Substrate";
+        [_activityLabel_2 setText:@"未安装 Cydia Substrate"];
         return NO;
+    } else {
+        [_activityLabel_2 setText:@"已安装 Cydia Substrate"];
     }
     return YES;
 }
@@ -349,19 +422,16 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         waitpid(pid, &status, 0);
         dispatch_async(dispatch_get_main_queue(), ^{
             running = NO;
-            if (status == 0) {
-                _activityLabel_2.text = @"Cydia Substrate 安装成功";
-            } else {
-                _activityLabel_2.text = @"Cydia Substrate 安装失败";
-            }
         });
     });
     while (running) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     if (status == 0) {
+        [_activityLabel_2 setText:@"Cydia Substrate 安装成功"];
         return YES;
     } else {
+        [_activityLabel_2 setText:@"Cydia Substrate 安装失败"];
         return NO;
     }
 }
@@ -392,16 +462,19 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
                             if (softVersions && [softVersions respondsToSelector:@selector(count)]) {
                                 for (int i = 0; i < [softVersions count]; i++) {
                                     id softVersion = [softVersions objectAtIndex:i];
-                                    if (softVersion && [[softVersion objectForKey:@"os"] isEqualToString:@"ios"]) {
+                                    if (softVersion && [softVersion isKindOfClass:[NSDictionary class]] && [[softVersion objectForKey:@"os"] isEqualToString:@"ios"]) {
                                         id version = [softVersion objectForKey:@"version"];
-                                        if (version && [version isEqualToString:currentVersion]) {
-                                            _downloadUrl = nil;
-                                            _activityLabel_3.text = @"内置资源已经是最新版本";
-                                        } else {
-                                            _downloadUrl = [softVersion objectForKey:@"url"];
-                                            _activityLabel_3.text = [NSString stringWithFormat:@"发现新版本：%@", version];
+                                        if (version && [version isKindOfClass:[NSString class]]) {
+                                            _remoteVersion = version;
+                                            if ([version isEqualToString:currentVersion]) {
+                                                _downloadUrl = nil;
+                                                [_activityLabel_3 setText:@"内置资源已经是最新版本"];
+                                            } else {
+                                                _downloadUrl = [softVersion objectForKey:@"url"];
+                                                [_activityLabel_3 setText:[NSString stringWithFormat:@"发现新版本：%@", version]];
+                                            }
+                                            result = YES;
                                         }
-                                        result = YES;
                                     }
                                 }
                             }
@@ -446,7 +519,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     _currentLength += data.length;
     double progress = (double)_currentLength / _sumLength;
-    _activityLabel_4.text = [NSString stringWithFormat:@"获取资源文件……%.2f%%", progress * 100];
+    [_activityLabel_4 setText:[NSString stringWithFormat:@"获取资源文件……%.2f%%", progress * 100]];
     [_writeHandle seekToEndOfFile];
     [_writeHandle writeData:data];
 }
@@ -468,8 +541,8 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 - (BOOL)doInstalling {
     __block int status = 0;
     __block BOOL running = YES;
+    [_activityLabel_5 setText:@"正在安装触动精灵"];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        _activityLabel_5.text = @"正在安装触动精灵";
         NSString *cachePath = nil;
         if (_downloadUrl != nil && _downloadResult) {
             cachePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"cache.deb"];
@@ -483,19 +556,16 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         waitpid(pid, &status, 0);
         dispatch_async(dispatch_get_main_queue(), ^{
             running = NO;
-            if (status == 0) {
-                _activityLabel_5.text = @"触动精灵安装成功";
-            } else {
-                _activityLabel_5.text = @"触动精灵安装失败";
-            }
         });
     });
     while (running) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     if (status == 0) {
+        [_activityLabel_5 setText:@"触动精灵安装成功"];
         return YES;
     } else {
+        [_activityLabel_5 setText:@"触动精灵安装失败"];
         return NO;
     }
 }
@@ -507,8 +577,8 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         _activityLabel_6.text = @"图标缓存重建成功";
     } else {
         __block BOOL running = YES;
+        [_activityLabel_6 setText:@"正在重建图标缓存"];
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            _activityLabel_6.text = @"正在重建图标缓存";
             NSString *cachePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"packages/uicached/*.deb"];
             NSString *command = [NSString stringWithFormat:@"dpkg -i %@", cachePath];
             pid_t pid;
@@ -517,11 +587,6 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
             waitpid(pid, &status, 0);
             dispatch_async(dispatch_get_main_queue(), ^{
                 running = NO;
-                if (status == 0) {
-                    _activityLabel_6.text = @"图标缓存重建成功";
-                } else {
-                    _activityLabel_6.text = @"图标缓存重建失败";
-                }
             });
         });
         while (running) {
@@ -529,8 +594,10 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         }
     }
     if (status == 0) {
+        [_activityLabel_6 setText:@"图标缓存重建成功"];
         return YES;
     } else {
+        [_activityLabel_6 setText:@"图标缓存重建失败"];
         return NO;
     }
 }
