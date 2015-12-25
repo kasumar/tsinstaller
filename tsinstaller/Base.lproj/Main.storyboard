@@ -46,12 +46,38 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDn-s8-0KC">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="V2c-kK-Wzb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="检查更新" backgroundImage="Button">
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V2c-kK-Wzb"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="V2c-kK-Wzb"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="checkUpdateButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8lQ-I4-5wN"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nvl-mb-Ft0">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="Fjj-qZ-8ky"/>
+                                    <constraint firstAttribute="height" constant="24" id="Fjj-qZ-8ky"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="准备中……" backgroundImage="Button">
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -151,30 +177,6 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDn-s8-0KC">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="V2c-kK-Wzb"/>
-                                </constraints>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="检查更新" backgroundImage="Button">
-                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="V2c-kK-Wzb"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="V2c-kK-Wzb"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="checkUpdateButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8lQ-I4-5wN"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -190,7 +192,7 @@
                             <constraint firstItem="WvY-ux-ri5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G0r-M1-aGs"/>
                             <constraint firstItem="nrf-eb-DFc" firstAttribute="leading" secondItem="qSQ-kG-L8z" secondAttribute="leading" id="IpO-nX-k1x"/>
                             <constraint firstItem="015-fh-F3t" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="JYo-zE-RZJ"/>
-                            <constraint firstItem="2kH-sA-rvt" firstAttribute="top" secondItem="WvY-ux-ri5" secondAttribute="bottom" constant="20" id="JbD-TD-OHj"/>
+                            <constraint firstItem="2kH-sA-rvt" firstAttribute="top" secondItem="WvY-ux-ri5" secondAttribute="bottom" constant="16" id="JbD-TD-OHj"/>
                             <constraint firstItem="xaE-lB-fjO" firstAttribute="bottom" secondItem="KKt-6F-Du0" secondAttribute="bottom" id="Jyt-Bt-rMd"/>
                             <constraint firstItem="6aZ-Kf-b9d" firstAttribute="top" secondItem="KKt-6F-Du0" secondAttribute="bottom" constant="9" id="KGi-Go-iwD"/>
                             <constraint firstItem="nGC-oX-OrZ" firstAttribute="leading" secondItem="6aZ-Kf-b9d" secondAttribute="trailing" constant="8" id="KcT-e3-xg5"/>
@@ -200,7 +202,7 @@
                             <constraint firstItem="nrf-eb-DFc" firstAttribute="top" secondItem="EAk-O1-fTM" secondAttribute="bottom" constant="9" id="Sb5-w4-b31"/>
                             <constraint firstItem="aBY-9L-m3d" firstAttribute="centerX" secondItem="WvY-ux-ri5" secondAttribute="centerX" id="TOJ-LZ-kxM"/>
                             <constraint firstItem="UtL-rD-5wL" firstAttribute="bottom" secondItem="nrf-eb-DFc" secondAttribute="bottom" id="TWU-by-PH2"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Nvl-mb-Ft0" secondAttribute="bottom" constant="54" id="Wlp-sy-OtQ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Nvl-mb-Ft0" secondAttribute="bottom" constant="36" id="Wlp-sy-OtQ"/>
                             <constraint firstItem="AP3-es-482" firstAttribute="leading" secondItem="qSQ-kG-L8z" secondAttribute="leading" id="XUE-CR-TNo"/>
                             <constraint firstItem="vHx-FE-d2z" firstAttribute="bottom" secondItem="AP3-es-482" secondAttribute="bottom" id="XXc-ni-v2W"/>
                             <constraint firstItem="xaE-lB-fjO" firstAttribute="leading" secondItem="KKt-6F-Du0" secondAttribute="trailing" constant="8" id="Y2n-Ne-2Wy"/>
@@ -233,6 +235,7 @@
                                 <exclude reference="WvY-ux-ri5"/>
                                 <exclude reference="aBY-9L-m3d"/>
                                 <exclude reference="mYN-dn-q0n"/>
+                                <exclude reference="sDn-s8-0KC"/>
                                 <exclude reference="Nvl-mb-Ft0"/>
                                 <exclude reference="pav-mf-VmL"/>
                                 <exclude reference="vHx-FE-d2z"/>
@@ -248,7 +251,6 @@
                                 <exclude reference="nrf-eb-DFc"/>
                                 <exclude reference="2kH-sA-rvt"/>
                                 <exclude reference="015-fh-F3t"/>
-                                <exclude reference="sDn-s8-0KC"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="Wlp-sy-OtQ"/>

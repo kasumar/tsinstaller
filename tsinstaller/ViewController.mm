@@ -11,7 +11,7 @@
 #import <sys/stat.h>
 #import "ViewController.h"
 
-#define currentVersion @"2.2.5"
+#define currentVersion @"2.2.6"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -19,7 +19,7 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-#define sshpassExecPath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/sshpass"]
+#define sshpassExecPath SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") ? [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/sshpass"] : @"/tmp/sshpass"
 
 @interface ViewController ()
 @property (strong, nonatomic) NSMutableData *fileData;
@@ -172,7 +172,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         _shouldUseCydia = NO;
         [_checkUpdateButton setTitle:@"发现新版本" forState:UIControlStateNormal];
         [_installButton setTitle:@"一键升级" forState:UIControlStateNormal];
-        [_tipsLabel setText:[NSString stringWithFormat:@"发现新版本 v%@，轻按以一键升级。", _installedVersion]];
+        [_tipsLabel setText:[NSString stringWithFormat:@"发现新版本 v%@，轻按以一键升级。", _remoteVersion]];
     }
     _shouldUpdate = YES;
     _installButton.enabled = YES;
@@ -183,7 +183,7 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         _installButton.enabled = NO;
         [_installButton setTitle:@"正在重启……" forState:UIControlStateDisabled];
         pid_t pid; int status = 0;
-        const char* args[] = {"killall", "-SIGKILL", "SpringBoard", "backboardd", NULL};
+        const char* args[] = {"killall", "-9", "SpringBoard", "backboardd", NULL};
         posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, (char* const*)envp);
         waitpid(pid, &status, 0);
         return;
@@ -245,7 +245,6 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
         }
         [self stepAnimate:6];
         if (![self doCleaning]) {
-            [_activityLabel_6 setText:@"清理执行失败"];
             _activityLabel_6.textColor = [UIColor grayColor];
         }
         [self stepAnimate:7];
@@ -367,17 +366,21 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
     if (!fileManager) {
         return NO;
     }
-    if (![fileManager fileExistsAtPath:sshpassExecPath]) {
-        [fileManager copyItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"bin/sshpass"] toPath:sshpassExecPath error:&error];
-        if (!error) {
-            return NO;
-        }
+    if ([fileManager fileExistsAtPath:sshpassExecPath]) {
+        [fileManager removeItemAtPath:sshpassExecPath error:&error];
+    }
+    if (error != nil) {
+        return NO;
+    }
+    [fileManager copyItemAtPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"bin/sshpass"] toPath:sshpassExecPath error:&error];
+    if (error != nil) {
+        return NO;
     }
     if (chmod([sshpassExecPath UTF8String], 0755)) {
         return NO;
     }
     pid_t pid; int status = 0;
-    const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", "echo", NULL};
+    const char* args[] = {"sshpass", "-p", password, "/bin/su", "-c", "echo -n", NULL};
     posix_spawn(&pid, [sshpassExecPath UTF8String], NULL, NULL, (char* const*)args, (char* const*)envp);
     waitpid(pid, &status, 0);
     if (status == 0) {
@@ -575,7 +578,8 @@ const char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
     __block int status = -1;
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/uicached.dylib"]) {
         status = 0;
-        _activityLabel_6.text = @"图标缓存重建成功";
+        [_activityLabel_6 setText:@"图标缓存重建成功"];
+        return YES;
     } else {
         __block BOOL running = YES;
         [_activityLabel_6 setText:@"正在重建图标缓存"];
